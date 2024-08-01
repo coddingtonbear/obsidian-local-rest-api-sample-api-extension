@@ -1,6 +1,6 @@
 {
-	"id": "obsidian-local-rest-api-sample-plugin",
-	"name": "Obsidian Local REST API Sample Plugin",
+	"id": "obsidian-local-rest-api-sample-extension",
+	"name": "Local REST API Sample API Extension",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
 	"description": "Example of how you can add additional routes to Obsidian Local REST API via a plugin",
