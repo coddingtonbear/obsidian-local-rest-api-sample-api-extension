@@ -1,5 +1,5 @@
 {
-	"id": "obsidian-local-rest-api-sample-extension",
+	"id": "obsidian-local-rest-api-sample-api-extension",
 	"name": "Local REST API Sample API Extension",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
