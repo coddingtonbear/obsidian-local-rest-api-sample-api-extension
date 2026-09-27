@@ -36,7 +36,7 @@ export interface SimpleTool {
 }
 
 export class FakeHost {
-	apiVersion = 5;
+	apiVersion = 3;
 	simpleTools: SimpleTool[] = [];
 	tools: McpToolDefinition[] = [];
 	resources: McpResourceDefinition[] = [];

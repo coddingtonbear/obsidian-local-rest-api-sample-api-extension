@@ -5,7 +5,7 @@ A working example of an **API extension** for [Obsidian Local REST API](https://
 It uses every part of the extension API, one part per source file, and each registration is commented with what it does and how to call it. Use it as a reference, or copy it as the starting point of your own extension.
 
 > [!IMPORTANT]
-> This sample targets **extension API version 5**, which has not been released yet. Until it is, the `obsidian-local-rest-api` dependency has to come from a local checkout of that plugin; see [Working against an unreleased host](#working-against-an-unreleased-host).
+> This sample targets **extension API version 3**, which has not been released yet. Until it is, the `obsidian-local-rest-api` dependency has to come from a local checkout of that plugin; see [Working against an unreleased host](#working-against-an-unreleased-host).
 
 ## What it adds
 
@@ -21,8 +21,8 @@ The sample counts things: notes in the vault, and words, headings, links, and ta
 | `addMcpResource` | The `sample-extension://vault-stats` resource | [src/mcp.ts](src/mcp.ts) | 3 |
 | `addMcpResourceTemplate` | The `sample-extension://note-stats/{+path}` resources | [src/mcp.ts](src/mcp.ts) | 3 |
 | `addMcpPrompt` | The `sample_review_note` prompt | [src/mcp.ts](src/mcp.ts) | 3 |
-| `addStreamableEvent` | The `note-measured` and `css-change` event streams | [src/events.ts](src/events.ts) | 5 |
-| `addOpenApiDescription` | Documentation of the routes above in `/openapi.yaml` | [src/openapi.ts](src/openapi.ts) | 4 |
+| `addStreamableEvent` | The `note-measured` and `css-change` event streams | [src/events.ts](src/events.ts) | 3 |
+| `addOpenApiDescription` | Documentation of the routes above in `/openapi.yaml` | [src/openapi.ts](src/openapi.ts) | 3 |
 | `unregister` | Removal of all of the above when the plugin is disabled | [src/main.ts](src/main.ts) | 1 |
 
 [src/stats.ts](src/stats.ts) holds the counting itself and knows nothing about the extension API. The other files are thin adapters over it, which is a structure worth keeping in your own extension: it is what makes the logic testable without Obsidian running.
@@ -34,7 +34,7 @@ An extension asks the host plugin for a handle, registers things through it, and
 ```ts
 import { getAPI } from "obsidian-local-rest-api";
 
-const api = getAPI(this.app, this.manifest, 5);
+const api = getAPI(this.app, this.manifest, 3);
 if (api) {
   api.addRoute("/my-route/").get((request, response) => {
     response.json({ ok: true });
