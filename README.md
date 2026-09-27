@@ -53,7 +53,7 @@ Three details matter, and [src/main.ts](src/main.ts) handles all of them:
 
 ## Creating your own extension
 
-1. Copy this repository, and clone your copy into your vault's plugin folder, `<vault>/.obsidian/plugins/<your plugin id>/`. Cloning it elsewhere and symlinking it into that folder works too.
+1. Copy this repository, and clone your copy into your vault's plugin folder, `<vault>/.obsidian/plugins/<your plugin id>/`. Cloning it elsewhere and symlinking it into that folder works too; on Linux or macOS, `ln -s /path/to/your/clone <vault>/.obsidian/plugins/<your plugin id>`.
 2. Make it yours: set `id`, `name`, `description`, and `author` in `manifest.json`, and `name` in `package.json`. The folder name must match the `id`. The `id` is also the emitter name of your event streams, so choose one that reads well in a URL.
 3. Install dependencies and start the build, which rebuilds `main.js` whenever a source file changes:
 
