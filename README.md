@@ -4,8 +4,8 @@ A working example of an **API extension** for [Obsidian Local REST API](https://
 
 It uses every part of the extension API, one part per source file, and each registration is commented with what it does and how to call it. Use it as a reference, or copy it as the starting point of your own extension.
 
-> [!IMPORTANT]
-> This sample targets **extension API version 3**, which has not been released yet. Until it is, the `obsidian-local-rest-api` dependency has to come from a local checkout of that plugin; see [Working against an unreleased host](#working-against-an-unreleased-host).
+> [!NOTE]
+> This sample needs **extension API version 3**, which Obsidian Local REST API provides from version 5.3.0.
 
 ## What it adds
 
