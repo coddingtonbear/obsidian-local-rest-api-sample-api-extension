@@ -79,14 +79,14 @@ describe("the plugin's lifecycle", () => {
 
 	test("explains itself instead of registering with a host that is too old", async () => {
 		const { host, plugin } = setUp();
-		host.apiVersion = 2;
+		host.apiVersion = 4;
 		host.install();
 
 		await plugin.onload();
 
 		expect(host.tools).toHaveLength(0);
 		expect(shownNotices()).toEqual([
-			expect.stringContaining("extension API version 3; version 2 is installed"),
+			expect.stringContaining("extension API version 5; version 4 is installed"),
 		]);
 	});
 });

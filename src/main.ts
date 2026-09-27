@@ -14,12 +14,13 @@ import { registerRoutes } from "./routes";
 import { registerVaultSubresource } from "./vaultSubresource";
 
 /**
- * The extension API version this plugin needs. Version 3 introduced vault
- * sub-resources, the richer MCP registrations, streamable events, and OpenAPI
- * descriptions. An extension that only adds routes and simple MCP tools can ask for 2
- * and run on older hosts.
+ * The extension API version this plugin needs: the highest version any method it calls
+ * was introduced in. Version 3 introduced vault sub-resources and the richer MCP
+ * registrations, version 4 OpenAPI descriptions, and version 5 streamable events. Ask
+ * for the lowest version that covers what you use, so that your extension runs on as
+ * many hosts as possible; one that only adds routes and simple MCP tools can ask for 2.
  */
-export const REQUIRED_API_VERSION = 3;
+export const REQUIRED_API_VERSION = 5;
 
 const HOST_LOADED_EVENT = "obsidian-local-rest-api:loaded";
 

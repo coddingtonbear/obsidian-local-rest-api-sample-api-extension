@@ -1,6 +1,6 @@
 /**
  * Documentation for this extension's routes: `addOpenApiDescription`. Extension API
- * version 3.
+ * version 4.
  *
  * The host cannot see what a route accepts or returns, so a route only appears in the
  * spec it serves at `/openapi.yaml` and `/openapi.json` when you describe it. Each field

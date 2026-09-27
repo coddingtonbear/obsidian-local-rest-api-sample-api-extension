@@ -1,5 +1,5 @@
 /**
- * Streamable events: `addStreamableEvent`. Extension API version 3.
+ * Streamable events: `addStreamableEvent`. Extension API version 5.
  *
  * Each event registered here can be followed as a Server-Sent Events stream, with this
  * plugin's id as the emitter:

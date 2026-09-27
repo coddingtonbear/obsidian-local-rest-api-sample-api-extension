@@ -156,7 +156,8 @@ export function registerMcp(
 			path: z.string().describe("Vault-relative path of a markdown note."),
 			focus: z.string().optional().describe("What the review should pay attention to."),
 		},
-		callback: async ({ path, focus }) => {
+		// An argument declared `.optional()` is absent when the client leaves it out.
+		callback: async ({ path = "", focus }) => {
 			const file = getNote(context, path);
 			if (!file) {
 				throw new Error(`No markdown note at "${path}".`);

@@ -5,7 +5,7 @@ A working example of an **API extension** for [Obsidian Local REST API](https://
 It uses every part of the extension API, one part per source file, and each registration is commented with what it does and how to call it. Use it as a reference, or copy it as the starting point of your own extension.
 
 > [!IMPORTANT]
-> This sample targets **extension API version 3**, which has not been released yet. Until it is, the `obsidian-local-rest-api` dependency has to come from a local checkout of that plugin; see [Working against an unreleased host](#working-against-an-unreleased-host).
+> This sample targets **extension API version 5**, which has not been released yet. Until it is, the `obsidian-local-rest-api` dependency has to come from a local checkout of that plugin; see [Working against an unreleased host](#working-against-an-unreleased-host).
 
 ## What it adds
 
@@ -21,8 +21,8 @@ The sample counts things: notes in the vault, and words, headings, links, and ta
 | `addMcpResource` | The `sample-extension://vault-stats` resource | [src/mcp.ts](src/mcp.ts) | 3 |
 | `addMcpResourceTemplate` | The `sample-extension://note-stats/{+path}` resources | [src/mcp.ts](src/mcp.ts) | 3 |
 | `addMcpPrompt` | The `sample_review_note` prompt | [src/mcp.ts](src/mcp.ts) | 3 |
-| `addStreamableEvent` | The `note-measured` and `css-change` event streams | [src/events.ts](src/events.ts) | 3 |
-| `addOpenApiDescription` | Documentation of the routes above in `/openapi.yaml` | [src/openapi.ts](src/openapi.ts) | 3 |
+| `addStreamableEvent` | The `note-measured` and `css-change` event streams | [src/events.ts](src/events.ts) | 5 |
+| `addOpenApiDescription` | Documentation of the routes above in `/openapi.yaml` | [src/openapi.ts](src/openapi.ts) | 4 |
 | `unregister` | Removal of all of the above when the plugin is disabled | [src/main.ts](src/main.ts) | 1 |
 
 [src/stats.ts](src/stats.ts) holds the counting itself and knows nothing about the extension API. The other files are thin adapters over it, which is a structure worth keeping in your own extension: it is what makes the logic testable without Obsidian running.
@@ -34,7 +34,7 @@ An extension asks the host plugin for a handle, registers things through it, and
 ```ts
 import { getAPI } from "obsidian-local-rest-api";
 
-const api = getAPI(this.app, this.manifest, 3);
+const api = getAPI(this.app, this.manifest, 5);
 if (api) {
   api.addRoute("/my-route/").get((request, response) => {
     response.json({ ok: true });
@@ -48,7 +48,7 @@ api?.unregister();
 Three details matter, and [src/main.ts](src/main.ts) handles all of them:
 
 - **Load order.** `getAPI` returns `undefined` when Local REST API is not installed, not enabled, or has not finished loading. The host fires the `obsidian-local-rest-api:loaded` workspace event each time it finishes loading, so register on that event as well as in `onload`.
-- **Versions.** The third argument to `getAPI` is the extension API version you need. If the installed host is older, `getAPI` throws `ApiVersionUnsupportedError`, which carries `requestedVersion` and `availableVersion`. Leave the argument out to accept any host and check `api.apiVersion` yourself before calling newer methods.
+- **Versions.** The third argument to `getAPI` is the extension API version you need: the highest in the table above among the methods you call. The types describe every method whichever version you pass, so asking for too low a version compiles, and then fails on an older host when the method is missing. If the installed host is older, `getAPI` throws `ApiVersionUnsupportedError`, which carries `requestedVersion` and `availableVersion`. Leave the argument out to accept any host and check `api.apiVersion` yourself before calling newer methods.
 - **Cleanup.** Call `unregister()` in `onunload`. It removes every route, sub-resource, MCP registration, event, and OpenAPI description the handle registered, and closes any open streams of your events.
 
 ## Creating your own extension
@@ -197,7 +197,7 @@ Both are small enough to copy and extend. Because `FakeHost` is declared against
 - **MCP names** are shared by the host and all extensions. Registering a tool, prompt, resource URI, or resource template name that is taken throws, so prefix yours.
 - **Tool errors.** Return `isError: true` for a failure the model can act on, such as a note that does not exist. Throw only when the tool itself is broken.
 - **Event payloads.** Your `serialize` function decides everything a stream sends, and anyone holding a stream URL receives it. Return only what such a person should see, and `null` to send nothing.
-- **Event names** are 1-128 letters, digits, or `.`, `_`, `:`, `-`. The host listens on `source` for the name you register, so for an event somebody else fires, the name has to be the one it is fired under.
+- **Event names** are 1-128 letters, digits, or `.`, `_`, `:`, `-`, and may not be `.` or `..`. The host listens on `source` for the name you register, so for an event somebody else fires, the name has to be the one it is fired under.
 - **OpenAPI names.** Paths, component names, and tags are shared too; a description that declares one that is taken throws, and nothing from that call is published. Write path parameters as `{name}`, not express's `:name`.
 
 The host's Readme has the reference for each method under [API Extensions](https://github.com/coddingtonbear/obsidian-local-rest-api#api-extensions), and the full type definitions are in [`publicApi.d.ts`](https://github.com/coddingtonbear/obsidian-local-rest-api/blob/main/publicApi.d.ts).
